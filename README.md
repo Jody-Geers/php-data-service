@@ -1,6 +1,8 @@
 # php-data-service
 
   RESTful web service in PHP, talks to mysql, returns JSON.
+  
+  A node.js example i wrote here : https://github.com/Jody-Geers/node-rest =-)
 
 ## Installation
 
