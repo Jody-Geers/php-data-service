@@ -1,0 +1,14 @@
+
+# BEGIN redirect all incoming requests that do not correspond to valid filename or directory to index.php
+
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L,NC,QSA]
+</IfModule>
+
+# END redirect all incoming requests that do not correspond to valid filename or directory to index.php
