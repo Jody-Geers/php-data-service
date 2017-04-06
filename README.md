@@ -33,6 +33,8 @@
   
   There is a .sql in config to match a db to example.
   
+  htaccess.txt = .htaccess
+  
 ## License
 
   MIT
