@@ -27,6 +27,8 @@
   
   At indervidual controller level you can overide data interaction functions to add custom logic, rules, validation etc. At index one could add a security layer.
   
+  There is a .sql in config to match a db to example.
+  
 ## License
 
   MIT
