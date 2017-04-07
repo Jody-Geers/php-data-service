@@ -13,12 +13,14 @@ class User extends AbstractController {
 
 	
 	public $isPublic = null;
+	public $canGetAll = null;
  	public $service = null;
 	
 	
 	public function User () {
 	
 		$this->isPublic = true;
+		$this->canGetAll = true;
  		$this->service = new UserService();
 		
 	}
