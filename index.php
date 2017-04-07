@@ -29,11 +29,11 @@ switch ( $requestMethod ) {
 
 
 /**
- * GET
- * @return {json} data
+ * Sort URL Req, interpret into data controller.
+ * @return {obj} TypeController
  * @access public
  */
-function doGet() {
+function validateAndGetController() {
 	
 	// url
 	$request = explode( '/', $_SERVER['REQUEST_URI'] );
@@ -45,13 +45,13 @@ function doGet() {
 	if ( !$type ) doHttpErr( ( object )array() );
 	
 	if ( file_exists( 'controller/' . $type . '.php' ) ) {
-		
+	
 		require_once( 'controller/' . $type . '.php' );
-		
+	
 	} else {
-
+	
 		doHttpErr( ( object )array( 'err' => 'HTTP/1.1 404 Not Found', 'errCode' => 404 ) );
-
+	
 	}
 	
 	// can instantiate controller
@@ -61,11 +61,48 @@ function doGet() {
 	
 	if ( $controller->isPublic === false ) doHttpErr( ( object )array( 'err' => 'HTTP/1.1 403 Forbidden', 'errCode' => 403 ) );
 	
-	// excercute request
-	$response = $controller->doGet( ( !empty( $_GET ) )? ( object )$_GET : null );
+	return $controller;
+	
+}
+
+
+/**
+ * GET
+ * @return {json} data
+ * @access public
+ */
+function doGet() {
+	
+	// validate request
+	$controller = validateAndGetController();
+
+	// execute request
+	$response = $controller->doPost( ( !empty( $_POST ) )? ( object )$_POST : null );
 	
 	if ( is_object( $response ) === true && property_exists( $response, 'err' ) ) doHttpErr( ( object )array( 'err' => $response->err, 'errCode' => $response->errCode ) );
 		
+	// res
+	doHttpSuccess( ( object )array( 'data' => $response ) );
+
+}
+
+
+/**
+ * POST
+ * @return {json} data
+ * @access public
+ */
+function doPost() {
+	
+	// validate request
+	$controller = validateAndGetController();
+
+	// execute request
+	$response = $controller->doGet( ( !empty( $_GET ) )? ( object )$_GET : null );
+
+	if ( is_object( $response ) === true && property_exists( $response, 'err' ) ) doHttpErr( ( object )array( 'err' => $response->err, 'errCode' => $response->errCode ) );
+
+	// res
 	doHttpSuccess( ( object )array( 'data' => $response ) );
 
 }
