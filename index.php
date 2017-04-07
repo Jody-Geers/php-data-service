@@ -77,7 +77,7 @@ function doGet() {
 	$controller = validateAndGetController();
 
 	// execute request
-	$response = $controller->doPost( ( !empty( $_POST ) )? ( object )$_POST : null );
+	$response = $controller->doGet( ( !empty( $_GET ) )? ( object )$_GET : null );
 	
 	if ( is_object( $response ) === true && property_exists( $response, 'err' ) ) doHttpErr( ( object )array( 'err' => $response->err, 'errCode' => $response->errCode ) );
 		
@@ -98,7 +98,7 @@ function doPost() {
 	$controller = validateAndGetController();
 
 	// execute request
-	$response = $controller->doGet( ( !empty( $_GET ) )? ( object )$_GET : null );
+	$response = $controller->doPost( ( !empty( $_POST ) )? ( object )$_POST : null );
 
 	if ( is_object( $response ) === true && property_exists( $response, 'err' ) ) doHttpErr( ( object )array( 'err' => $response->err, 'errCode' => $response->errCode ) );
 
