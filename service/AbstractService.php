@@ -33,25 +33,8 @@ Abstract class AbstractService {
 		$returnArr = array();
 	
 		while( $row = mysqli_fetch_array( $resultSet ) ) {
-				
-			// has to be set at child class
-			$entity = new $this->model();
-	
-			foreach( $row as $key => $value ) {
-					
-				$arr = explode( '_', $key );
-	
-				if ( !empty( $arr[1] ) ) {
-	
-					$function = 'set' . ucfirst( $arr[1] );
-						
-					$entity->$function( $value );
-						
-				}
-	
-			}
-				
-			array_push( $returnArr, $entity );
+
+			array_push( $returnArr, $this->createModelObj( $row ) );
 				
 		}
 	
@@ -79,7 +62,7 @@ Abstract class AbstractService {
 		
 				$function = 'set' . ucfirst( $arr[1] );
 		
-				$entity->$function( $value );
+				if ( method_exists( $entity, $function ) ) $entity->$function( $value );
 		
 			}
 		
@@ -139,7 +122,7 @@ Abstract class AbstractService {
 	
 		// build sql
 		$sql = 'SELECT * FROM ' . strtolower( $modelName ) . ' WHERE ' . $whereSqlBuilder;
-	
+		
 		// execute and return model objects
 		$returnArr = $this->_createModelArrFromResultSet( mysqli_query( $this->_dbConnection, $sql ) );
 	
