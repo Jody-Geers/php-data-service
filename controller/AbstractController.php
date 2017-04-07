@@ -18,7 +18,7 @@ Abstract class AbstractController {
 		// validation - remove foreign propertys
 		$typeReqObj = $this->service->createModelObj( $args );
 		
-		if ( empty( $typeReqObj ) ) {
+		if ( empty( $args ) ) {
 			
 			// get all
 			return $this->service->get();
@@ -26,12 +26,12 @@ Abstract class AbstractController {
 		} else {
 			
 			// get by primary key
-			if ( count( $typeReqObj ) === 1 && key( $typeReqObj ) === strtolower( get_class( $this ) ) . '_id' ) {
-				return $this->service->getByParams( $typeReqObj )[0];
+			if ( count( $args ) === 1 && key( $args ) === strtolower( get_class( $this ) ) . '_id' ) {
+				return $this->service->getByParams( $args )[0];
 			}
 			
 			// get by params
-			return $this->service->getByParams( $typeReqObj );
+			return $this->service->getByParams( $args );
 			
 		}
 		
@@ -45,6 +45,9 @@ Abstract class AbstractController {
 	 * @access private
 	 */
 	public function doPost( $args ) {
+		
+		// validation - remove foreign propertys
+		$typeReqObj = $this->service->createModelObj( $args );
 	
 		// set
 		// then
