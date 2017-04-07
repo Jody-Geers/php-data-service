@@ -18,7 +18,7 @@ Abstract class AbstractController {
 		// validation - remove foreign propertys
 		$typeReqObj = $this->service->createModelObj( $args );
 		
-		if ( empty( $args ) ) {
+		if ( empty( $typeReqObj ) ) {
 			
 			// get all
 			return $this->service->get();
@@ -26,12 +26,12 @@ Abstract class AbstractController {
 		} else {
 			
 			// get by primary key
-			if ( count( $args ) === 1 && key( $args ) === strtolower( get_class( $this ) ) . '_id' ) {
-				return $this->service->getByParams( $args )[0];
+			if ( count( $typeReqObj ) === 1 && key( $typeReqObj ) === strtolower( get_class( $this ) ) . '_id' ) {
+				return $this->service->getByParams( $typeReqObj )[0];
 			}
 			
 			// get by params
-			return $this->service->getByParams( $args );
+			return $this->service->getByParams( $typeReqObj );
 			
 		}
 		
