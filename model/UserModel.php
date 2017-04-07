@@ -1,42 +1,59 @@
 <?php
 
+
+require_once( 'AbstractController.php' );
+require_once( 'service/UserService.php' );
+
+
 /**
-* Entity Model
-* @param User propertys
+* Class
 * @access public
 */
-class UserModel {
+class User extends AbstractController {
 
-	public $user_id;
-	public $user_name;
-	public $user_surname;
 	
-	public function User( $user_id = null, $user_name = null, $user_surname = null ) {
+	public $isPublic = null;
+	public $canGetAll = null;
+ 	public $service = null;
 	
-		$this->user_id = $user_id;
-		$this->user_name = $user_name;
-		$this->user_surname = $user_surname;
+	
+	public function User () {
+	
+		$this->isPublic = true;
+		$this->canGetAll = true;
+ 		$this->service = new UserService();
+		
+	}
 
+	
+// 	/**
+// 	* Gets User Data
+// 	* @param {obj} $args - User
+//	* @return {array} User || {obj} User
+// 	* @access public
+// 	*/
+// 	public function doGet( $args ) {
+			
+// 		return $this->_service->get( $args );
+
+// 	}
+	
+	
+	/**
+	 * Saves User Data
+	 * @param {obj} $args - User
+	 * @return {object} User
+	 * @access private
+	 */
+	public function doPost( $args ) {
+		
+		// not accessible
+		return ( object )array( 'err' => 'HTTP/1.1 403 Forbidden', 'errCode' => 403 );
+		
 	}
 	
-	public function setId( $user_id ) {
-	
-		$this->user_id = $user_id;
-	
-	}
-	
-	public function setName( $user_name ) {
-	
-		$this->user_name = $user_name;
-	
-	}
-	
-	public function setSurname( $user_surname ) {
-	
-		$this->user_surname = $user_surname;
-	
-	}
 	
 }
+
 
 ?>
