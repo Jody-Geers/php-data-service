@@ -61,6 +61,36 @@ Abstract class AbstractService {
 
 
 	/**
+	 * helper - create model objects
+	 * @param {obj} $obj
+	 * @return {obj} $entity
+	 * @access public
+	 */
+	public function createModelObj( $obj ) {
+		
+		// has to be set at child class
+		$entity = new $this->model();
+		
+		foreach( $obj as $key => $value ) {
+				
+			$arr = explode( '_', $key );
+		
+			if ( !empty( $arr[1] ) ) {
+		
+				$function = 'set' . ucfirst( $arr[1] );
+		
+				$entity->$function( $value );
+		
+			}
+		
+		}
+		
+		return $entity;
+		
+	}
+
+
+	/**
 	 * get data from provider
 	 * @param {obj} $args - Type based propertys
 	 * @return {array} Type || {object} Type
